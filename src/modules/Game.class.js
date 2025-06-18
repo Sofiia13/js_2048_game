@@ -25,9 +25,145 @@ class Game {
     console.log(initialState);
   }
 
-  moveLeft() {}
-  moveRight() {}
-  moveUp() {}
+  moveLeft() {
+    const tbody = document.querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+
+    rows.forEach((row) => {
+      const columns = row.querySelectorAll('td');
+
+      const values = [];
+      
+      columns.forEach(cell => {
+        const value = cell.textContent.trim();
+
+        if (value !== '') {
+          values.push(value);
+        }
+      })
+
+      for (let i = 0; i < values.length; i++) {
+        if (values[i] === values[i + 1]) {
+          values[i] *= 2;
+          values.splice(i + 1, 1);
+        }
+      }
+
+      columns.forEach((cell, i) => {
+        cell.classList.forEach(className => {
+          if (className.startsWith('field-cell--')) {
+            cell.classList.remove(className);
+          }
+        });
+        
+        if (values[i]) {
+          cell.classList.add(`field-cell--${values[i]}`);
+          cell.textContent = values[i];
+        } else {
+          cell.textContent = '';
+        }
+      });
+    })
+
+    this.generateCube();
+  }
+
+  moveRight() {
+    const tbody = document.querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+
+    rows.forEach((row) => {
+      const columns = row.querySelectorAll('td');
+
+      const values = [];
+
+      for (let i = columns.length - 1; i >= 0; i--) {
+        const value = columns[i].textContent.trim();
+
+        if (value !== '') {
+          values.push(value);
+        }
+      }
+
+      for (let i = 0; i < values.length; i++) {
+        if (values[i] === values[i + 1]) {
+          values[i] *= 2;
+          values.splice(i + 1, 1);
+        }
+      }
+
+      for (let i = columns.length - 1; i >= 0; i--) {
+        let cell = columns[i];
+        cell.classList.forEach(className => {
+          if (className.startsWith('field-cell--')) {
+            cell.classList.remove(className);
+          }
+        });
+
+        const valueIndex = columns.length - 1 - i;
+        const value = values[valueIndex];
+
+        if (value) {
+          cell.classList.add(`field-cell--${value}`);
+          cell.textContent = value;
+        } else {
+          cell.textContent = '';
+        }
+      }
+
+    })
+
+    this.generateCube();
+  }
+
+  moveUp() {
+    const tbody = document.querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+    const colsNum = rows[0].querySelectorAll('td').length;
+
+    for (let col = 0; col < colsNum; col++) {
+      const values = [];
+
+      for (let row = 0; row < rows.length; row++) {
+        const cell = rows[row].querySelectorAll('td')[col];
+        
+        const value = cell.textContent.trim();
+
+        if (value !== '') {
+          values.push(value);
+        }
+      }
+
+      for (let i = 0; i < values.length; i++) {
+        if (values[i] === values[i + 1]) {
+          values[i] *= 2;
+          values.splice(i + 1, 1);
+        }
+      }
+
+      for (let row = 0; row < rows.length; row++) {
+        const cell = rows[row].querySelectorAll('td')[col];
+
+        cell.classList.forEach(cl => {
+          if (cl.startsWith('field-cell--')) {
+            cell.classList.remove(cl);
+          }
+        }) 
+
+        if (values[row]) {
+          cell.classList.add(`field-cell--${values[row]}`);
+          cell.textContent = values[row];
+        } else {
+          cell.textContent = '';
+        }
+      }
+    }
+
+    
+
+    this.generateCube();
+  }
+
   moveDown() {}
 
   /**
@@ -57,10 +193,12 @@ class Game {
    */
   start() {
     const mainButton = document.querySelector('.button');
-    mainButton.classList.remove("start");
-    mainButton.classList.add("restart");
+
+    mainButton.classList.remove('start');
+    mainButton.classList.add('restart');
 
     const message = document.querySelector('.message-start');
+
     message.classList.add('hidden');
 
     this.generateCube();
@@ -86,6 +224,7 @@ class Game {
 
     if (randomColumn.textContent.trim() !== '') {
       this.generateCube();
+
       return;
     }
 
