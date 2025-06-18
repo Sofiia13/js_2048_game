@@ -55,14 +55,45 @@ class Game {
   /**
    * Starts the game.
    */
-  start() {}
+  start() {
+    const mainButton = document.querySelector('.button');
+    mainButton.classList.remove("start");
+    mainButton.classList.add("restart");
+
+    const message = document.querySelector('.message-start');
+    message.classList.add('hidden');
+
+    this.generateCube();
+    this.generateCube();
+  }
 
   /**
    * Resets the game.
    */
   restart() {}
 
-  // Add your own methods here
+  generateCube() {
+    const tbody = document.querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+
+    const randomRowIndex = Math.floor(Math.random() * rows.length);
+    const randomRow = rows[randomRowIndex];
+
+    const columns = randomRow.querySelectorAll('td');
+
+    const randomColumnIndex = Math.floor(Math.random() * columns.length);
+    const randomColumn = columns[randomColumnIndex];
+
+    if (randomColumn.textContent.trim() !== '') {
+      this.generateCube();
+      return;
+    }
+
+    const value = Math.random() < 0.9 ? 2 : 4;
+
+    randomColumn.classList.add(`field-cell--${value}`);
+    randomColumn.textContent = value;
+  }
 }
 
 module.exports = Game;
