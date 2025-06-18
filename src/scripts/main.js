@@ -16,7 +16,7 @@ mainButton.addEventListener('click', () => {
 });
 
 document.addEventListener('keydown', (e) => {
-  switch(e.key) {
+  switch (e.key) {
     case 'ArrowLeft':
       game.moveLeft();
       break;
@@ -30,4 +30,4 @@ document.addEventListener('keydown', (e) => {
       game.moveDown();
       break;
   }
-})
+});

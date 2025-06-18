@@ -33,14 +33,14 @@ class Game {
       const columns = row.querySelectorAll('td');
 
       const values = [];
-      
-      columns.forEach(cell => {
+
+      columns.forEach((cell) => {
         const value = cell.textContent.trim();
 
         if (value !== '') {
           values.push(value);
         }
-      })
+      });
 
       for (let i = 0; i < values.length; i++) {
         if (values[i] === values[i + 1]) {
@@ -50,12 +50,12 @@ class Game {
       }
 
       columns.forEach((cell, i) => {
-        cell.classList.forEach(className => {
+        cell.classList.forEach((className) => {
           if (className.startsWith('field-cell--')) {
             cell.classList.remove(className);
           }
         });
-        
+
         if (values[i]) {
           cell.classList.add(`field-cell--${values[i]}`);
           cell.textContent = values[i];
@@ -63,7 +63,7 @@ class Game {
           cell.textContent = '';
         }
       });
-    })
+    });
 
     this.generateCube();
   }
@@ -93,8 +93,9 @@ class Game {
       }
 
       for (let i = columns.length - 1; i >= 0; i--) {
-        let cell = columns[i];
-        cell.classList.forEach(className => {
+        const cell = columns[i];
+
+        cell.classList.forEach((className) => {
           if (className.startsWith('field-cell--')) {
             cell.classList.remove(className);
           }
@@ -110,8 +111,7 @@ class Game {
           cell.textContent = '';
         }
       }
-
-    })
+    });
 
     this.generateCube();
   }
@@ -126,7 +126,7 @@ class Game {
 
       for (let row = 0; row < rows.length; row++) {
         const cell = rows[row].querySelectorAll('td')[col];
-        
+
         const value = cell.textContent.trim();
 
         if (value !== '') {
@@ -144,11 +144,11 @@ class Game {
       for (let row = 0; row < rows.length; row++) {
         const cell = rows[row].querySelectorAll('td')[col];
 
-        cell.classList.forEach(cl => {
+        cell.classList.forEach((cl) => {
           if (cl.startsWith('field-cell--')) {
             cell.classList.remove(cl);
           }
-        }) 
+        });
 
         if (values[row]) {
           cell.classList.add(`field-cell--${values[row]}`);
@@ -159,12 +159,55 @@ class Game {
       }
     }
 
-    
-
     this.generateCube();
   }
 
-  moveDown() {}
+  moveDown() {
+    const tbody = document.querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+    const colsNum = rows[0].querySelectorAll('td').length;
+
+    for (let col = 0; col < colsNum; col++) {
+      const values = [];
+
+      for (let row = rows.length - 1; row >= 0; row--) {
+        const cell = rows[row].querySelectorAll('td')[col];
+
+        const value = cell.textContent.trim();
+
+        if (value !== '') {
+          values.unshift(value);
+        }
+      }
+
+      for (let i = 0; i < values.length; i++) {
+        if (values[i] === values[i + 1]) {
+          values[i] *= 2;
+          values.splice(i + 1, 1);
+        }
+      }
+
+      for (let row = rows.length - 1; row >= 0; row--) {
+        const cell = rows[row].querySelectorAll('td')[col];
+        const valueIndex = rows.length - 1 - row;
+
+        cell.classList.forEach((cl) => {
+          if (cl.startsWith('field-cell--')) {
+            cell.classList.remove(cl);
+          }
+        });
+
+        if (values[valueIndex]) {
+          cell.classList.add(`field-cell--${values[valueIndex]}`);
+          cell.textContent = values[valueIndex];
+        } else {
+          cell.textContent = '';
+        }
+      }
+    }
+
+    this.generateCube();
+  }
 
   /**
    * @returns {number}
