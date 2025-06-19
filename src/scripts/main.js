@@ -15,19 +15,24 @@ mainButton.addEventListener('click', () => {
   }
 });
 
+
 document.addEventListener('keydown', (e) => {
   switch (e.key) {
     case 'ArrowLeft':
       game.moveLeft();
+      game.getScore();
       break;
     case 'ArrowRight':
       game.moveRight();
+      game.getScore();
       break;
     case 'ArrowUp':
       game.moveUp();
+      game.getScore();
       break;
     case 'ArrowDown':
       game.moveDown();
+      game.getScore();
       break;
   }
 });
