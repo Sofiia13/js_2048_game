@@ -1,4 +1,5 @@
 'use strict';
+import '../styles/main.scss';
 
 // Uncomment the next lines to use your game instance in the browser
 const Game = require('../modules/Game.class');
@@ -14,7 +15,6 @@ mainButton.addEventListener('click', () => {
     game.restart();
   }
 });
-
 
 document.addEventListener('keydown', (e) => {
   switch (e.key) {
