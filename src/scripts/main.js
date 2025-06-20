@@ -1,5 +1,6 @@
 'use strict';
 import '../styles/main.scss';
+import '../images/favicon.png';
 
 // Uncomment the next lines to use your game instance in the browser
 const Game = require('../modules/Game.class');
