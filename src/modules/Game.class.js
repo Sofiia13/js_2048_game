@@ -40,6 +40,7 @@ class Game {
 
     rows.forEach((row) => {
       const cells = Array.from(row.querySelectorAll('td'));
+
       this.processLine(cells);
     });
 
@@ -60,7 +61,8 @@ class Game {
 
     rows.forEach((row) => {
       let cells = Array.from(row.querySelectorAll('td'));
-      cells = cells.reverse(); 
+
+      cells = cells.reverse();
       this.processLine(cells);
     });
 
@@ -83,7 +85,7 @@ class Game {
     for (let col = 0; col < colsNum; col++) {
       const cells = [];
 
-      rows.forEach(row => {
+      rows.forEach((row) => {
         cells.push(row.querySelectorAll('td')[col]);
       });
       this.processLine(cells);
@@ -108,18 +110,16 @@ class Game {
     for (let col = 0; col < colsNum; col++) {
       const cells = [];
 
-      rows.forEach(row => {
+      rows.forEach((row) => {
         cells.push(row.querySelectorAll('td')[col]);
       });
       cells.reverse();
       this.processLine(cells);
-
     }
 
     this.afterMoveActions(prevState);
 
     return this.score;
-
   }
 
   /**
@@ -256,33 +256,37 @@ class Game {
   extractValues(cells) {
     const values = [];
 
-    cells.forEach(cell => {
+    cells.forEach((cell) => {
       const value = cell.textContent.trim();
-      if (value !== '') values.push(value);
+
+      if (value !== '') {
+        values.push(value);
+      }
     });
-    
+
     return values;
-}
+  }
 
   updateCells(cells, values) {
     cells.forEach((cell, i) => {
-        cell.classList.forEach((className) => {
-          if (className.startsWith('field-cell--')) {
-            cell.classList.remove(className);
-          }
-        });
-
-        if (values[i]) {
-          cell.classList.add(`field-cell--${values[i]}`);
-          cell.textContent = values[i];
-        } else {
-          cell.textContent = '';
+      cell.classList.forEach((className) => {
+        if (className.startsWith('field-cell--')) {
+          cell.classList.remove(className);
         }
       });
+
+      if (values[i]) {
+        cell.classList.add(`field-cell--${values[i]}`);
+        cell.textContent = values[i];
+      } else {
+        cell.textContent = '';
+      }
+    });
   }
 
   processLine(cells) {
     const values = this.extractValues(cells);
+
     this.mergeCubes(values);
     this.updateCells(cells, values);
   }
@@ -306,6 +310,7 @@ class Game {
         values.splice(i + 1, 1);
       }
     }
+
     return values;
   }
 
