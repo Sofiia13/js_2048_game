@@ -201,7 +201,6 @@ class Game {
     this.isGameOver = false;
 
     const message = document.querySelector('.message-start');
-
     message.classList.add('hidden');
 
     let count = 0;
