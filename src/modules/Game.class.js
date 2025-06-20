@@ -204,8 +204,20 @@ class Game {
 
     message.classList.add('hidden');
 
-    this.generateCube();
-    this.generateCube();
+    let count = 0;
+    const values = this.getState();
+
+    values.forEach((row) => {
+      row.forEach((cell) => {
+        if (cell !== 0) {
+          count++;
+        }
+      });
+    });
+
+    for (let i = 0; i < 2 - count; i++) {
+      this.generateCube();
+    }
 
     this.getScore();
   }
@@ -221,6 +233,8 @@ class Game {
 
     mainButton.classList.remove('restart');
     mainButton.classList.add('start');
+
+    mainButton.textContent = 'Start';
 
     const message = document.querySelector('.message-start');
 
@@ -374,6 +388,8 @@ class Game {
 
       mainButton.classList.remove('start');
       mainButton.classList.add('restart');
+
+      mainButton.textContent = 'Restart';
       this.hasMovedOnce = true;
     }
   }
